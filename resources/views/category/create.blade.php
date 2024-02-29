@@ -16,12 +16,12 @@
                 <input type="text" class="form-control" id="InputName" name="name" value="{{old('name')}}">
             </div>
             <div class="col-12">
-                <label for="InputImage" class="form-label">Email</label>
+                <label for="InputImage" class="form-label">Inpu Category</label>
                 <input type="file" class="form-control" id="InputImage" name="image">
             </div>
             <div class="d-flex justify-content-end">
             <button type="submit" class="btn btn-success mt-2">
-                <i class="bi  bi-plus"></i>Add Category
+                <i class="bi  bi-clipboard-plus"></i> Add Category
             </button>
             </div>
         </form>

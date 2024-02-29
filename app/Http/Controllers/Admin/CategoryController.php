@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
+    //title halaman index
+    
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('category.index');
+        //
+       $title = 'Category - index';
+        //mengurutkan data berdasarkan data terbaru
+$category = Category::Latest()->get(); 
+        return view('category.index',compact( 'category', 'title'));
     }
 
     /**
@@ -24,7 +33,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('category.create');
+        $title = 'Category - Create';
+        return view('category.create',compact( 'title'));
     }
 
     /**
@@ -40,7 +50,24 @@ class CategoryController extends Controller
             'image'=>'required|image|mimes:jpeg,png,jpg|max:2000',
 
         ]);
- 
+ //upload
+ $image=$request->file('image');
+ //menyimpan image yang  di upload ke folder storage/app/public/category
+ //fungsi hasname untuk generate nama unik
+ //fungsi getClientOriginal Name
+ //itu menggunakan nama asli dari image
+ $image->storeAs('public/category', $image->hashName());
+
+//melakkukan save to database
+Category::create([
+    'name'=>$request->name,
+    'slug'=>Str::slug($request->name),
+    'image'=>$image->hashName(),
+]);
+//melakukan return redirect
+return redirect()->route('category.index')->with('success', 'Mantap data Berhasil Di Tambahkan! 👍');
+
+
     }
 
     /**
@@ -62,7 +89,9 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $title = 'Category - edit';
+        $category = Category::findOrFail($id);
+        return view ('category.edit', compact('title','category'));
     }
 
     /**
@@ -74,10 +103,35 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-    }
-
-    /**
+        $this->validate($request,[
+            'name'=>'required|max:220',
+            'image'=>'image|mimes:jpeg,png,jpg|max:2000',
+        ]);
+        // get data by id
+        $category = Category::findOrFail($id);
+        //jika  image kosong
+        if ($request->image==''){
+            $category->update([
+                'name'=>$request->name,
+                'slug'=>Str::slug($request->name),
+            ]);
+            return redirect()->route('category.index') ->with(['succes' => 'data kehapus']);
+        }else{
+            // jika image tidak kosong
+            //hapus image lama
+            Storage::disk('local')->delete('public/category/'.basename($category->image));
+            //upload gambar yang baru
+            $image =  $request->file('image');
+            $image->storeAs('public/category/', $image->hashName());
+            //update data
+            $category->update([
+                'name'=>$request->name,
+                'image'=>$image->hashName(),
+                'slug'=>Str::slug($request->name)]);
+        }
+        return redirect()->route('category.index') -> with(['success' => 'Data telah diubah 😁']);
+        }
+         /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -85,6 +139,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+    
     }
-}
+    }
+
+   
+
+
