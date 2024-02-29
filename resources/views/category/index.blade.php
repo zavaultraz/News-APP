@@ -35,22 +35,23 @@
                                 <td>
                                     <img src="{{ $row->image }}" width="100px" alt="ini gambar">
                                 </td>
-                                <td>
+                                <td class="gap-2">
+                            
                                     <!--  -->
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#basicModal{{$row->id}}">
+                                    <button type="button" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#basicModal{{$row->id}}">
                                         <i class="bi bi-eye"></i> View
                                     </button>
                                     @include('category.include.modal-show')
 
 
-                                    <a href="{{route('category.edit', $row->id)}}" class="btn btn-warning">
+                                    <a href="{{route('category.edit', $row->id)}}" class="btn btn-warning mt-2">
                                         <i class="bi bi-pencil"></i> Edit
                                     </a>
-
+<!-- button delate with route destroy row > id -->
                                     <form action="{{ route('category.destroy', $row->id) }}" method="post" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger mb-2"><i class="bi bi-trash"></i> Delete</button>
+                                        <button type="submit" class="btn btn-danger mt-2 "><i class="bi bi-trash"></i> Delete</button>
                                     </form>
                                 </td>
                             </tr>

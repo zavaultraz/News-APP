@@ -139,7 +139,14 @@ return redirect()->route('category.index')->with('success', 'Mantap data Berhasi
      */
     public function destroy($id)
     {
-    
+    //get data by id
+    $category=Category::findOrFail($id);    
+    // delete data
+    Storage::disk('local')->delete('public/category/'.basename($category->image));
+    //delete data by id
+    $category->delete();
+  	//redirect
+    return redirect()->route('category.index') -> with(['error' => 'Data telah dihapus 👋']);
     }
     }
 

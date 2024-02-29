@@ -21,7 +21,27 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+//handle redirect reegister to login
+Route::match(['GET','POST'], '/register',
+function(){
+    return  redirect('login');
+}
+);
+
+
 //route for news using resource
-Route::resource('news', NewsController::class);
-Route::resource('category', CategoryController::class);
+
+
+//middleware for admin panel
+Route::resource('category', CategoryController::class)->middleware('auth');
+//route midleware
+Route::middleware('auth')->group(function (){
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// route admin
+Route::middleware(['auth','admin'])
+->group(function() {
+    // route for news usinng rsc
+    Route::resource('news', NewsController::class);
+    //route for category using rsc
+Route::resource('category', CategoryController::class);});
+});
