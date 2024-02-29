@@ -40,6 +40,7 @@ class CategoryController extends Controller
             'image'=>'required|image|mimes:jpeg,png,jpg|max:2000',
 
         ]);
+ 
     }
 
     /**
