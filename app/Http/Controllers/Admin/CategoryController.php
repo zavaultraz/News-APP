@@ -22,7 +22,7 @@ class CategoryController extends Controller
         //
        $title = 'Category - index';
         //mengurutkan data berdasarkan data terbaru
-$category = Category::Latest()->get(); 
+$category = Category::Latest()->paginate(5); 
         return view('category.index',compact( 'category', 'title'));
     }
 
