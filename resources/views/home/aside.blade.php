@@ -23,7 +23,13 @@
       
     @endif
     <!-- news -->
+    <li class="nav-item">
+      <a class="nav-link " href="{{route('news.index')}}">
+        <i class="bi bi-envelope-paper"></i>
+        <span>News</span>
+      </a>
 
+    </li><!-- End Dashboard Nav -->
   
   </ul>
 

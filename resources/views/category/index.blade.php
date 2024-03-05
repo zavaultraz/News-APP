@@ -12,6 +12,12 @@
                 </i>
             </a>
         </div>
+        @if (session('success'))
+        <div class="alert alert-success m-2">
+{{ session('success') }}
+        </div>
+    @endif
+    
         <div class="container mt-3">
             <div class="card">
                 <div class="card-body">

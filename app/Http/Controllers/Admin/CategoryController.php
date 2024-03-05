@@ -115,7 +115,7 @@ return redirect()->route('category.index')->with('success', 'Mantap data Berhasi
                 'name'=>$request->name,
                 'slug'=>Str::slug($request->name),
             ]);
-            return redirect()->route('category.index') ->with(['succes' => 'data kehapus']);
+            return redirect()->route('category.index') ->with(['success' => 'Title berhasil di ubah😁']);
         }else{
             // jika image tidak kosong
             //hapus image lama
@@ -129,7 +129,7 @@ return redirect()->route('category.index')->with('success', 'Mantap data Berhasi
                 'image'=>$image->hashName(),
                 'slug'=>Str::slug($request->name)]);
         }
-        return redirect()->route('category.index') -> with(['success' => 'Data telah diubah 😁']);
+        return redirect()->route('category.index') -> with(['success' => 'Data telah diubah 😙']);
         }
          /**
      * Remove the specified resource from storage.
@@ -146,7 +146,7 @@ return redirect()->route('category.index')->with('success', 'Mantap data Berhasi
     //delete data by id
     $category->delete();
   	//redirect
-    return redirect()->route('category.index') -> with(['error' => 'Data telah dihapus 👋']);
+    return redirect()->route('category.index') -> with(['success' => 'Data telah dihapus 👋']);
     }
     }
 

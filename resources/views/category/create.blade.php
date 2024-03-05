@@ -2,6 +2,15 @@
 @section('content')
 <div class="row">
     <div class="card p-4">
+    @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         <h3>create category</h3>
         <!-- route store -->
         <!-- untuk melakukan penambahan -->
@@ -16,7 +25,7 @@
                 <input type="text" class="form-control" id="InputName" name="name" value="{{old('name')}}">
             </div>
             <div class="col-12">
-                <label for="InputImage" class="form-label">Inpu Category</label>
+                <label for="InputImage" class="form-label">Input Category</label>
                 <input type="file" class="form-control" id="InputImage" name="image">
             </div>
             <div class="d-flex justify-content-end">
@@ -24,6 +33,7 @@
                 <i class="bi  bi-clipboard-plus"></i> Add Category
             </button>
             </div>
+            
         </form>
     </div>
 </div>
