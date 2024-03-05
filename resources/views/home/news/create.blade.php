@@ -50,6 +50,11 @@
                         console.error(error);
                     });
             </script>
+               <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success mt-2">
+                <i class="bi  bi-clipboard-plus"></i> Create News
+            </button>
+            </div>
         </form>
     </div>
 </div>
