@@ -4,7 +4,7 @@
     <div class="card p-4">
         <h2>News Create</h2>
         <hr>
-        <form action="{{route('category.store')}}" method="post" enctype="multipart/form-data">
+        <form action="{{route('news.store')}}" method="post" enctype="multipart/form-data">
             @csrf
             @method('POST')
             <!-- field title -->

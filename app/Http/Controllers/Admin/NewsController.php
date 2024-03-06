@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\News;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -45,10 +47,25 @@ class NewsController extends Controller
     {
         //validate
         $this->validate($request,[
-            'title' => 'required|min:5|max:100',
+            'title' => 'required|min:1|max:100',
             'content'=> 'required',
-            'category-id'=> 'required',
+            'category_id'=> 'required',
             'image' => 'required|image|mimes:jpeg,png,jpg|max:3999']);
+            // upload img
+            $image = $request->file('image');
+        //kedalam folder public/news
+            // fungsi hasName bikin random nama file
+            $image->storeAs('public/news',$image->hashName());
+            //create data kedalam table news
+            News::create([
+                'title' => $request->title,
+                'content' => $request->content,
+                'category_id' => $request->category_id,
+                'image' => $image->hashName(),
+                'slug' => Str::slug($request->title),
+            ]); 
+            return redirect()->route('news.index')->with('success', 'Mantap Berita Berhasil Di Tambahkan! 👍');
+
     }
 
     /**
