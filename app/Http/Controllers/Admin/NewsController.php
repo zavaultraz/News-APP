@@ -18,9 +18,12 @@ class NewsController extends Controller
     public function index()
     {
         $title = 'News - index';
+// get data baru terbaru darii tabel news
+$news = News::latest()->paginate(5);  // mengambil semua isi tabel news dan diurutkan secara latest (terbaru)
+$category = Category::all();   // menampilkan semua data yang ada didalam table category
         //mengurutkan data berdasarkan data terbaru
 
-        return view('home.news.index',compact( 'title'));
+        return view('home.news.index',compact( 'title', 'news','category'));
     }
 
     /**
@@ -110,6 +113,6 @@ class NewsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
     }
 }
