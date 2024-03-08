@@ -79,7 +79,9 @@ $category = Category::all();   // menampilkan semua data yang ada didalam table 
      */
     public function show($id)
     {
-        //
+        $title="Show - News";
+        $news=News::findOrFail($id);
+        return view('home.news.show',compact('title', 'news'));
     }
 
     /**
@@ -90,7 +92,10 @@ $category = Category::all();   // menampilkan semua data yang ada didalam table 
      */
     public function edit($id)
     {
-        //
+        $news = News::findOrFail($id);
+        $category = Category::all();
+        $title='Edit Data Berita';
+        return view('home.news.edit', compact('title','news','category'));
     }
 
     /**

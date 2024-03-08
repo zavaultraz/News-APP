@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('news', function (Blueprint $table) {
-         
+
+            $table->id();
             $table->foreignId('category_id');
             $table->string('title');
             $table->string('image');

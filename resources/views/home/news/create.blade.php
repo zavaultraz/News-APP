@@ -41,15 +41,18 @@
             </div>
             
             <script>
-                ClassicEditor
-                    .create(document.querySelector('#editor'))
-                    .then(editor => {
-                        console.log(editor);
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-            </script>
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            readOnly: true
+        })
+        .then(editor => {
+            console.log(editor);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+            
                <div class="d-flex justify-content-end">
             <button type="submit" class="btn btn-success mt-2">
                 <i class="bi  bi-clipboard-plus"></i> Create News

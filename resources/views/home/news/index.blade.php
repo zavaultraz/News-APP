@@ -21,7 +21,7 @@
                             <th>Title</th>
                             <th>Image</th>
                             <th>Category</th>
-                            <th>Image Category</th>
+                            <th>Icon</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -34,18 +34,19 @@
                             <td>
                                 <img src="{{ $row->image }}" width="100px" alt="ini gambar">
                             </td>
-                            
-                            
+
+
                             <td><img src="{{ $row->category->image }}" width="100px" alt="gambar kategori"></td>
+
                             
-                            <td>
-                                <button class="btn btn-primary detail">
-                                <i class="bi bi-eye"></i> Detail</button>
-                                <button class="btn btn-warning edit">
-                                    <i class="bi bi-pen"></i> Edit</button>
-                                <button class="btn btn-danger delete">
-                                    <i class="bi bi-x"></i> Delete</button>
+                            <td >
+                                <a href="{{route('news.show', $row->id)}}" class="btn btn-primary"><i class="bi bi-eye"></i> Lihat</a>
+                                <a href="{{route('news.edit', $row->id)}}" class="btn btn-warning"><i class="bi bi-pencil"></i> Edit</a>
+                                <button class="btn btn-danger"><i class="bi bi-trash"></i> Hapus</button>
                             </td>
+                            
+
+                            
                         </tr>
                         @empty
 
