@@ -11,6 +11,12 @@
                 </i>
             </a>
         </div>
+        @if (session('success'))
+        <div class="alert alert-success mt-2 alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+        @endif
         <div class="container mt-3">
             <div class="card p-3">
                 <h5 class="card-title">Data News</h5>
@@ -38,15 +44,20 @@
 
                             <td><img src="{{ $row->category->image }}" width="100px" alt="gambar kategori"></td>
 
-                            
-                            <td >
-                                <a href="{{route('news.show', $row->id)}}" class="btn btn-primary"><i class="bi bi-eye"></i> Lihat</a>
-                                <a href="{{route('news.edit', $row->id)}}" class="btn btn-warning"><i class="bi bi-pencil"></i> Edit</a>
-                                <button class="btn btn-danger"><i class="bi bi-trash"></i> Hapus</button>
-                            </td>
-                            
 
-                            
+                            <td>
+                                <a href="{{route('news.show', $row->id)}}" class="btn btn-primary mt-2"><i class="bi bi-eye"></i> Lihat</a>
+                                <a href="{{route('news.edit', $row->id)}}" class="btn btn-warning mt-2"><i class="bi bi-pencil"></i> Edit</a>
+                                <form action="{{ route('news.destroy', $row-> id ) }}" method="post" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger mt-2" onclick="return confirm('Are you sure you want to delete this item?')"><i class="bi bi-trash"></i> Delete</button>
+
+                                    </form>
+                            </td>
+
+
+
                         </tr>
                         @empty
 

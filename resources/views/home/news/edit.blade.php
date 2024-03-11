@@ -4,6 +4,20 @@
     <div class="card p-4">
         <h2>News Create</h2>
         <hr>
+        @if ($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-exclamation-octagon me-2"></i>
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
         <form action="{{route('news.update',$news->id)}}" method="post" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -11,20 +25,20 @@
             <!-- fungsi old name adalah menampilkan kembali inputan user -->
             <div class="mb-2">
                 <label for="InputTitle" class="form-label">News Title</label>
-                <input type="text" class="form-control" id="InputTitle" name="title" value="{{old('$news->title')}}">
+                <input type="text" class="form-control" id="InputTitle" name="title" value="{{$news->title}}">
             </div>
             <!-- field image -->
             <!-- fungsi old name adalah menampilkan kembali inputan user -->
             <div class="mb-2">
                 <label for="InputImage" class="form-label">News Image</label>
-                <input type="file" class="form-control" id="InputImage" name="image">
+                <input type="file" class="form-control" id="InputImage" name="image" value="{{old('image')}}">
             </div>
             <div class="mb-3">
                 <label class="col-sm-2 col-form-label">Chose Category</label>
                 <div class="col-sm-10">
                     <select class="form-select" name="category_id" aria-label="Default select example">
-                    <option selected value="{{$news->category->id}}">{{$news->name}}</option>
-                        <option>--Select Category--</option>
+                    <option selected value="{{$news->category->id}}" >{{$news->category->name}}</option>
+                        <option disabled>--Select Category--</option>
                         @foreach ($category as $row)
                         <option value="{{$row->id}}">{{$row->name}}</option>
 
@@ -59,8 +73,8 @@
         </script>
 
             <div class="d-flex justify-content-end">
-                <button type="submit" class="btn btn-success mt-2">
-                    <i class="bi  bi-clipboard-plus"></i> Create News
+                <button type="submit" class="btn btn-warning mt-2">
+                    <i class="bi  bi-clipboard-plus"></i> Update News
                 </button>
             </div>
         </form>

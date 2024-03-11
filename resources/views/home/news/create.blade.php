@@ -4,6 +4,20 @@
     <div class="card p-4">
         <h2>News Create</h2>
         <hr>
+        @if ($errors->any())
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-exclamation-octagon me-2"></i>
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
         <form action="{{route('news.store')}}" method="post" enctype="multipart/form-data">
             @csrf
             @method('POST')
