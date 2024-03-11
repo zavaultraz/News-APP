@@ -37,11 +37,14 @@ Route::resource('category', CategoryController::class)->middleware('auth');
 //route midleware
 Route::middleware('auth')->group(function (){
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/profile'.[\App\Http\Controllers\Profile\ProfilController::class,'index'])->name('profile');
 // route admin
 Route::middleware(['auth','admin'])
 ->group(function() {
     // route for news usinng rsc
     Route::resource('news', NewsController::class);
     //route for category using rsc
-Route::resource('category', CategoryController::class);});
+    // except untuk menghilankan fungsi
+    //only hanya untuk menampilkan itu saja
+Route::resource('category', CategoryController::class)->except('show');});
 });
