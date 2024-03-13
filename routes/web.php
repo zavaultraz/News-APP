@@ -37,7 +37,9 @@ Route::resource('category', CategoryController::class)->middleware('auth');
 //route midleware
 Route::middleware('auth')->group(function (){
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/profile'.[\App\Http\Controllers\Profile\ProfilController::class,'index'])->name('profile');
+    Route::get('/profile',[\App\Http\Controllers\Profile\ProfilController::class,'index'])->name('profile');
+    Route::get('/change-password', [\App\Http\Controllers\Profile\ProfilController::class,'changePassword'])->name('profile.change-password');
+    Route::put('/update-password', [\App\Http\Controllers\Profile\ProfilController::class,'updatePassword'])->name('profile.update-password');
 // route admin
 Route::middleware(['auth','admin'])
 ->group(function() {
