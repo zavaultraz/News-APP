@@ -15,18 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/',[\App\Http\Controllers\Frontend\FrontendController::class,'index']);
 
 Auth::routes();
 
 //handle redirect reegister to login
-Route::match(['GET','POST'], '/register',
-function(){
-    return  redirect('login');
-}
-);
+// Route::match(['GET','POST'], '/register',
+// function(){
+//     return  redirect('login');
+// }
+// );
 
 
 //route for news using resource
@@ -40,6 +38,13 @@ Route::middleware('auth')->group(function (){
     Route::get('/profile',[\App\Http\Controllers\Profile\ProfilController::class,'index'])->name('profile');
     Route::get('/change-password', [\App\Http\Controllers\Profile\ProfilController::class,'changePassword'])->name('profile.change-password');
     Route::put('/update-password', [\App\Http\Controllers\Profile\ProfilController::class,'updatePassword'])->name('profile.update-password');
+    Route::put('/reset-password/{id}', [\App\Http\Controllers\Profile\ProfilController::class,'resetPassword'])->name('resetpassword');
+    Route::get('/create-profile',[\App\Http\Controllers\Profile\ProfilController::class,'createProfile'])->name('createprofile');
+    Route::post('/store-profile',[\App\Http\Controllers\Profile\ProfilController::class,'storeProfile'])->name('storeprofile');
+    Route::get('/edit-profile',[\App\Http\Controllers\Profile\ProfilController::class,'editProfile'])->name(('editProfile'));
+    Route::put('/update-profile',[\App\Http\Controllers\Profile\ProfilController::class,'updateProfile'])->name('updateProfile');
+        
+    });
 // route admin
 Route::middleware(['auth','admin'])
 ->group(function() {
@@ -49,4 +54,6 @@ Route::middleware(['auth','admin'])
     // except untuk menghilankan fungsi
     //only hanya untuk menampilkan itu saja
 Route::resource('category', CategoryController::class)->except('show');});
-});
+
+//  for user
+Route::get('/all-user',[\App\Http\Controllers\Profile\ProfilController::class,'allUser'])->name('alluser');

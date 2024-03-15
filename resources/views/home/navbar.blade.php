@@ -168,7 +168,11 @@
       <li class="nav-item dropdown pe-3">
 
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-          <img src="https://ui-avatars.com/api/background=012970&color=fff?name={{ Auth::user()->name }}" alt="Profile" class="rounded-circle">
+        @if (empty(Auth::user()->profile->image))
+                        <img src="https://ui-avatars.com/api/background=012970&color=fff?name={{ Auth::user()->name }}" alt="" class="img-fluid w-100 rounded-circle">
+                        @else
+                        <img src="{{ Auth::user()->profile->image }}" alt="pp" class="img-fluid w-100 rounded-circle">
+                        @endif  
           <span class="d-none d-md-block dropdown-toggle ps-2 fw-semibold">{{ Auth::user()->name }}</span>
         </a><!-- End Profile Iamge Icon -->
 

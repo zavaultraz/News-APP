@@ -8,7 +8,10 @@
         <h1>Wellcome {{ Auth::user()->name }} <i class="bi bi-person-check-fill"></i></h1>
         <hr>
         <div class="card p-2">
-            <h2 class="text-center list-group-item">Time : <strong><span id="clock"></span></strong></h2>
+            <div class="text-center list-group-item">
+                <h2 class="fw-bold fs-2" style="color: #012970;">Semangat 🫡</h2>
+                <h1><strong><span id="clock"></span></strong></h1>
+                </div>
         </div>
         <!-- tambahkan jam di sini -->
         <div class="p-2">
