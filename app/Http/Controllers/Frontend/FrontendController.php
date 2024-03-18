@@ -11,10 +11,12 @@ class FrontendController extends Controller
 {
     public function index(){
         $title="Home";
+        $newsSideNews = News::where('category_id')->limit(10)->get();
         //get data category
+        $sliderNews = News::latest()->limit(3)->get();
         $category= Category::latest()->get();
         // get data news by category
-        $categoryNews = News::with('category')->latest()->get();
-        return view('frontend.news.index',compact('title', 'category','categoryNews'));
+   
+        return view('frontend.news.index',compact('title', 'category', 'sliderNews', 'newsSideNews'));
     }
 }
