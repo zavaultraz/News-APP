@@ -19,4 +19,21 @@ class FrontendController extends Controller
    
         return view('frontend.news.index',compact('title', 'category', 'sliderNews', 'newsSideNews'));
     }
+
+    public function detailNews($slug){
+        $category=Category::latest()->get();
+        //get data news
+        $news = News::where('slug', $slug )->first();
+        return view('frontend.news.detail', compact('category','news'));
+    }
+    public function detailCategory($slug){
+    //  datail/category{slug}
+    // 
+        $category=Category::latest()->get();
+   
+        $detailCategory = Category::where('slug', $slug)->first();
+
+        $news = News::where('category_id',$detailCategory->id)->latest()->get();
+        return view('frontend.news.detail-category', compact('category','detailCategory','news'));
+    }
 }
