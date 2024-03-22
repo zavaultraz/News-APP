@@ -95,4 +95,14 @@ class AuthController extends Controller
         $token = $request->user()->currentAccessToken()->delete();
         return ResponseFormatter::success($token , 'Token Revoked');
     }
+
+    public function allUsers(){
+        $users=User::where('role', 'user')->get();
+    return ResponseFormatter::success(
+        $users,
+        "Data user berhasil diambil"
+    );
+    
+    
+    }
 }

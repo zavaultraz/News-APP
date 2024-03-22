@@ -20,10 +20,30 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::post('/logout', [\App\Http\Controllers\API\AuthController::class, 'logout']);
+    
 });
 
+
+Route::get('/allUsers', [\App\Http\Controllers\API\AuthController::class, 'allUsers']);
 
 Route::post('/login',[\App\Http\Controllers\API\AuthController::class,'login']);
 
 Route::post('/register',[\App\Http\Controllers\API\AuthController::class,'register']);
 
+// get data news
+
+Route::get('/allNews',[\App\Http\Controllers\API\NewsController::class,'index']);
+
+//get data news by id
+
+Route::get('/news/{id}',[\App\Http\Controllers\API\NewsController::class,'show']);
+
+//get categoty
+
+Route::get('/allCategory',[\App\Http\Controllers\API\CategoryController::class,'index']);
+
+
+Route::get('/category/{id}',[\App\Http\Controllers\API\CategoryController::class,'show']);
+
+//get carousel
+Route::get('/Carousel',[\App\Http\Controllers\API\FrontEndController::class,'index']);
