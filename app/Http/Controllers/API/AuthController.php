@@ -93,16 +93,48 @@ class AuthController extends Controller
     public  function logout(Request $request)
     {
         $token = $request->user()->currentAccessToken()->delete();
-        return ResponseFormatter::success($token , 'Token Revoked');
+        return ResponseFormatter::success($token, 'Token Revoked');
     }
 
-    public function allUsers(){
-        $users=User::where('role', 'user')->get();
-    return ResponseFormatter::success(
-        $users,
-        "Data user berhasil diambil"
-    );
-    
-    
+    public function allUsers()
+    {
+        $users = User::where('role', 'user')->get();
+        return ResponseFormatter::success(
+            $users,
+            "Data user berhasil diambil"
+        );
+    }
+    public function updatePassword(Request $request)
+    {
+        try {
+            $this->validate($request, [
+                'old_password' => 'required',
+                'new_password' => 'required|string|min:6|',
+                'confirm_password' => 'required|string|min:6|'
+            ]);
+            //get data user
+            $user = Auth::user();
+            //cek passwor lama
+            if (!Hash::check($request->old_password, $user->password)) {
+                return ResponseFormatter::error([
+                    'message' => 'Password salah'
+                ], 'AUTHENTICATION FAILED', 401);
+            }
+            //cek password baru dan konfirmasi password baru
+            if ($request->new_password != $request->confirm_password) {
+                return ResponseFormatter::error([
+                    'message' => 'password not match'
+                ], 'Authentication Failed', 401);
+            }
+            //update password
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+            return ResponseFormatter::success(['message'=>'Passwor berhasil dirubah'], 'Password changed successfully',200);
+        } catch (\Exception $error) {
+            return ResponseFormatter::error([
+                'message' => 'Something went wrong',
+                'error' => $error
+            ], 'Authentication Failed', 500);
+        }
     }
 }
