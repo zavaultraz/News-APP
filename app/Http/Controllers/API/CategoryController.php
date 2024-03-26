@@ -70,43 +70,65 @@ class CategoryController extends Controller
             ], 'Authentication Failed', 500);
         }
     }
+
     public function update(Request $request, $id)
     {
         try {
-            //validate
-            $this->validate($request,[
-                'name' => 'required|unique:categories',
-                'image' => 'image|mimes:jpeg,jpg,png|max:6600'
-            ] );
-            //get data by id
+            $this->validate($request, [
+                'name' => 'required',
+                'image' => 'image|mimes:jpg,png,jpeg|max:2048'
+            ]);
+
+            // get data by id
             $category = Category::findOrFail($id);
-            //store image
-            if ($request->file('image')=='') {
-                $category->update([
-                    'name'=>$request->name,
-                    'slug'=>Str::slug($request->name)
-                ]);
-            }else{
-                //delate old img
-                Storage::disk('local')->delete('public/category/' . basename($category->image));
-                $image =  $request->file('image');
-                $image->storeAs('public/category/', $image->hashName());
-                //update data
+
+            // store image
+            if ($request->file('image') == '') {
                 $category->update([
                     'name' => $request->name,
-                    'image' => $image->hashName(),
-                    'slug' => Str::slug($request->name)
+                    'slug' => Str::slug('$request->name')
+                ]);
+            } else {
+                // Jika gambarnya diupdate
+                // hapus image lama
+                Storage::disk('local')->delete('public/category/' . basename($category->image));
+
+                // upload image baru
+                $image = $request->file('image');
+                $image->storeAs('public/category', $image->hashName());
+
+                // update data
+                $category->update([
+                    'name' => $request->name,
+                    'slug' => Str::slug($request->name),
+                    'image' => $image->hashName()
                 ]);
             }
-            return ResponseFormatter::success([
-                $category, 'Data category Berhasil di update'
-            ]);
-            
+            return ResponseFormatter::success(
+                $category,
+                'Data diganti'
+            );
         } catch (\Exception $error) {
             return ResponseFormatter::error([
                 'message' => 'Something went wrong',
                 'error' => $error
-            ], 'Authentication Failed', 500);
+            ], 'Authentication failed', 500);
+        }
+    }
+    public function  destroy($id){
+        try {
+            //get data by id
+            $category=Category::findorFail($id);
+            //delate image
+            Storage::disk('local')->delete('public/category/' . basename($category->image));
+            // delete category
+            $category->delete();
+            return ResponseFormatter::success(null,'Deleted');
+        }catch (\Exception $error) {
+            return ResponseFormatter::error([
+                'message' => 'Something went wrong',
+                'error' => $error
+            ], 'Authentication failed', 500);
         }
     }
 }

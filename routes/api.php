@@ -28,6 +28,7 @@ Route::group(
     function () {
         Route::post('/category/create', [\App\Http\Controllers\API\CategoryController::class, 'store']);
         Route::post('/category/update/{id}', [\App\Http\Controllers\API\CategoryController::class, 'update']);
+        Route::delete('/category/destroy/{id}', [\App\Http\Controllers\API\CategoryController::class, 'destroy']);
     }
 );
 
