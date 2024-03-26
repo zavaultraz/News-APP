@@ -18,32 +18,39 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['middleware'=>['auth:sanctum']], function(){
+Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [\App\Http\Controllers\API\AuthController::class, 'logout']);
-    Route::post('/updatePassword',[\App\Http\Controllers\API\AuthController::class,'UpdatePassword']);
+    Route::post('/updatePassword', [\App\Http\Controllers\API\AuthController::class, 'UpdatePassword']);
 });
-
+// routes for admin
+Route::group(
+    ['middleware' => ['auth:sanctum', 'admin']],
+    function () {
+        Route::post('/category/create', [\App\Http\Controllers\API\CategoryController::class, 'store']);
+        Route::post('/category/update/{id}', [\App\Http\Controllers\API\CategoryController::class, 'update']);
+    }
+);
 
 Route::get('/allUsers', [\App\Http\Controllers\API\AuthController::class, 'allUsers']);
 
-Route::post('/login',[\App\Http\Controllers\API\AuthController::class,'login']);
+Route::post('/login', [\App\Http\Controllers\API\AuthController::class, 'login']);
 
-Route::post('/register',[\App\Http\Controllers\API\AuthController::class,'register']);
+Route::post('/register', [\App\Http\Controllers\API\AuthController::class, 'register']);
 
 // get data news
 
-Route::get('/allNews',[\App\Http\Controllers\API\NewsController::class,'index']);
+Route::get('/allNews', [\App\Http\Controllers\API\NewsController::class, 'index']);
 
 //get data news by id
 
-Route::get('/news/{id}',[\App\Http\Controllers\API\NewsController::class,'show']);
+Route::get('/news/{id}', [\App\Http\Controllers\API\NewsController::class, 'show']);
 
-//get categoty
+//get category
 
-Route::get('/allCategory',[\App\Http\Controllers\API\CategoryController::class,'index']);
+Route::get('/allCategory', [\App\Http\Controllers\API\CategoryController::class, 'index']);
 
 
-Route::get('/category/{id}',[\App\Http\Controllers\API\CategoryController::class,'show']);
+Route::get('/category/{id}', [\App\Http\Controllers\API\CategoryController::class, 'show']);
 
 //get carousel
-Route::get('/Carousel',[\App\Http\Controllers\API\FrontEndController::class,'index']);
+Route::get('/Carousel', [\App\Http\Controllers\API\FrontEndController::class, 'index']);
