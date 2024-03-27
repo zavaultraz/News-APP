@@ -21,6 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [\App\Http\Controllers\API\AuthController::class, 'logout']);
     Route::post('/updatePassword', [\App\Http\Controllers\API\AuthController::class, 'UpdatePassword']);
+    
+    Route::post('/storeProfile', [\App\Http\Controllers\API\AuthController::class, 'storeProfile']);
 });
 // routes for admin
 Route::group(
@@ -29,6 +31,11 @@ Route::group(
         Route::post('/category/create', [\App\Http\Controllers\API\CategoryController::class, 'store']);
         Route::post('/category/update/{id}', [\App\Http\Controllers\API\CategoryController::class, 'update']);
         Route::delete('/category/destroy/{id}', [\App\Http\Controllers\API\CategoryController::class, 'destroy']);
+        //route news
+        Route::post('/news/create', [\App\Http\Controllers\API\NewsController::class, 'store']);
+        Route::delete('/news/destroy/{id}', [\App\Http\Controllers\API\NewsController::class, 'destroy']);
+        Route::post('/news/update/{id}', [\App\Http\Controllers\API\NewsController::class, 'update']);
+
     }
 );
 

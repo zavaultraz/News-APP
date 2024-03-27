@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Helpers\ResponseFormatter;
 use Exception;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Request;
+use App\Helpers\ResponseFormatter;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -129,7 +130,46 @@ class AuthController extends Controller
             //update password
             $user->password = Hash::make($request->new_password);
             $user->save();
-            return ResponseFormatter::success(['message'=>'Passwor berhasil dirubah'], 'Password changed successfully',200);
+            return ResponseFormatter::success(['message' => 'Passwor berhasil dirubah'], 'Password changed successfully', 200);
+        } catch (\Exception $error) {
+            return ResponseFormatter::error([
+                'message' => 'Something went wrong',
+                'error' => $error
+            ], 'Authentication Failed', 500);
+        }
+    }
+
+
+    // update profile
+    public function storeProfile(Request $request)
+    {
+        try {
+            //validate
+            $this->validate($request, [
+                'first_name' => 'required',
+                'image' => 'required|image|max:2048|mimes:jpg,jpeg,png'
+            ]);
+
+            // get data user
+            $user = auth()->user();
+
+            //upload image
+            $image = $request->file('image');
+            $image->storeAs('public/profile', $image->hashName());
+
+            // create profile
+            $user->profile()->create([
+                'first_name' => $request->first_name,
+                'image' => $image->hashName()
+            ]);
+
+            // get data profile
+            $profile = $user->profile;
+
+            return ResponseFormatter::success(
+                $profile,
+                'Profile berhasil diupdate'
+            );
         } catch (\Exception $error) {
             return ResponseFormatter::error([
                 'message' => 'Something went wrong',
