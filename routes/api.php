@@ -21,7 +21,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [\App\Http\Controllers\API\AuthController::class, 'logout']);
     Route::post('/updatePassword', [\App\Http\Controllers\API\AuthController::class, 'UpdatePassword']);
-    
+    Route::post('/updateProfile', [\App\Http\Controllers\API\AuthController::class, 'updateProfile']);
     Route::post('/storeProfile', [\App\Http\Controllers\API\AuthController::class, 'storeProfile']);
 });
 // routes for admin

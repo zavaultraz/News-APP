@@ -83,10 +83,7 @@ class ProfilController extends Controller
         $image->storeAs('public/profile', $image->getClientOriginalName());
         // get user login
         $user = auth()->user();
-        $user->profile()->create([
-            'first_name' => $request->first_name,
-            'image' => $image->getClientOriginalName()
-        ]);
+      
         return redirect()->route('profile')->with('success', 'Profile Has Been Created Successfully 🎉');
     }
     public function editProfile()
@@ -122,8 +119,6 @@ class ProfilController extends Controller
             $user->profile->update([
                 'first_name' => $request->first_name,
                 'image' => $image->getClientOriginalName(),
-
-
             ]);
             return redirect()->route('profile')->with('success', 'Profile Has Been Created Successfully 🎉');
         }

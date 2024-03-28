@@ -177,4 +177,50 @@ class AuthController extends Controller
             ], 'Authentication Failed', 500);
         }
     }
+    public  function updateProfile(Request $request)
+    {
+        try {
+            //validate
+            $this->validate($request, [
+                'first_name' => 'required|string|',
+                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
+            //get user login
+            $user = auth()->user();
+            //cek bila gak up img
+            if ($request->file("image") == "") {
+                $user->profile->update([
+                    'first_name' => $request->first_name,
+                ]);
+            } else {
+                //delate img
+                Storage::delete('/public/profile/' . basename($user->profile->image));
+                //store img
+                $image = $request->file('image');
+                $image->storeAs('public/profile', $image->hashName());
+                //UPLOAD IMG
+                $user->profile->update([
+                    'first_name' => $request->first_name,
+                    'image' => $image->hashName(),
+                ]);
+            }
+            if(!$user->profile){
+                return ResponseFormatter::error([
+                    'message'=>"User tidak mempunyai profile",
+                ], "Error Data Profile User",  404);
+            }
+            // get data profile
+            $profile = $user->profile;
+
+            return ResponseFormatter::success(
+                $profile,
+                'Profile berhasil diupdate'
+            );
+        } catch (\Exception $error) {
+            return ResponseFormatter::error([
+                'message' => 'Something went wrong',
+                'error' => $error
+            ], 'Authentication Failed', 500);
+        }
+    }
 }
