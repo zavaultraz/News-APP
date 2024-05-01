@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\NewsController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -58,3 +59,30 @@ Route::resource('category', CategoryController::class)->except('show');});
 
 //  for user
 Route::get('/all-user',[\App\Http\Controllers\Profile\ProfilController::class,'allUser'])->name('alluser');
+
+//storage link
+Route::get('/storage-link', function() {
+    Artisan::call('storage:link');
+    return 'success';
+    return 'storage link succses';
+});
+Route::get('/config-cache', function() {
+    Artisan::call('config:cache');
+    return 'config cache succses';
+});
+Route::get('/config-clear', function() {
+    Artisan::call('config:clear');
+    return 'config clear succses';
+});
+Route::get('/view-cache', function() {
+    Artisan::call('view:cache');
+    return 'view cache succses';
+});
+Route::get('/view-clear', function() {
+    Artisan::call('view:clear');
+    return 'view clear succses';
+});
+Route::get('/route-clear', function() {
+    Artisan::call('route:clear');
+    return 'route clear succses';
+});
