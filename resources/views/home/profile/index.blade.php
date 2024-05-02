@@ -30,7 +30,7 @@
                         </div>
                         <div class="d-flex justify-content-end">
                         @if (empty(Auth::user()->profile->image))
-                        <a href="{{route('createprofile')}}" class="btn btn-outline-primary ">
+                        <a href="{{ route('createprofile') }}" class="btn btn-outline-primary ">
                                 <i class="bi bi-arrow-up-circle w-2"></i> Create Profile
                             </a>
                         @else

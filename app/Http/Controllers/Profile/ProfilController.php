@@ -75,16 +75,32 @@ class ProfilController extends Controller
     {
         //validate
         $this->validate($request, [
-            'first_name' => 'required|string',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+            'first_name' => 'required',
+            'image' => 'image|mimes:jpeg,png,jpg|max:2048'
         ]);
-        //store img
+
+        // store image
         $image = $request->file('image');
         $image->storeAs('public/profile', $image->getClientOriginalName());
+
         // get user login
         $user = auth()->user();
-      
-        return redirect()->route('profile')->with('success', 'Profile Has Been Created Successfully 🎉');
+
+        // create data profile
+        $user->profile()->create([
+            'first_name' => $request->first_name,
+            'image' => $image->getClientOriginalName()
+        ]);
+
+    
+
+        return redirect()->route('profile')
+            ->with(
+                'success',
+                'Profile has been created'
+            );
+
+        // return redirect()->route('profile')->with('success', 'Profile Has Been Created Successfully 🎉');
     }
     public function editProfile()
     {
